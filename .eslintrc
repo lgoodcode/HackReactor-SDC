@@ -12,5 +12,7 @@
       "named": "never",
       "asyncArrow": "always"
     }]
-  }
+  },
+  // Ignore the build files
+  "ignorePatterns": ["dist"]
 }

@@ -11,6 +11,8 @@
 # production
 /dist
 
+**/*.csv
+
 # eslint cache
 .eslintcache
 

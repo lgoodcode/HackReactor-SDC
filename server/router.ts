@@ -1,8 +1,6 @@
 import { Router } from 'express'
-// import controllers from './controllers'
+import { getProducts } from './controllers/products'
 
 const router = Router()
 
-export default router.get('*', (req, res) => {
-  res.send('hello world')
-})
+export default router.get('/products', getProducts)

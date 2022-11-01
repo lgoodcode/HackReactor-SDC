@@ -1,5 +1,6 @@
 declare global {
-  type MyType = {
-    cool: boolean;
-  }
+  // Globally declare the types to reduce repetition
+  export type { Request, Response, NextFunction } from 'express'
 }
+
+export {}

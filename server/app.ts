@@ -1,4 +1,4 @@
-import express, { type Request, type Response, NextFunction } from 'express'
+import express from 'express'
 import compression from 'compression'
 import router from './router'
 
