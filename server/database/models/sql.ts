@@ -48,14 +48,14 @@ export const products = async (page = 1, count = 5, limit?: number) => {
   // }
 
   // return await db.query(`
-  //   SELECT S.*, P.url, P.thumbnail_url, SK.size, SK.quantity
-  //   FROM style AS S
-  //   LEFT JOIN photo as P
-  //   ON S.id = P.style_id
-  //   LEFT JOIN sku AS SK
-  //   ON S.id = SK.style_id
-  //   GROUP BY S.id, P.url, P.thumbnail_url, SK.size, SK.quantity
-  //   LIMIT ${limit}
+  // SELECT S.*, P.url, P.thumbnail_url, SK.size, SK.quantity
+  // FROM style AS S
+  // LEFT JOIN photo as P
+  // ON S.id = P.style_id
+  // LEFT JOIN sku AS SK
+  // ON S.id = SK.style_id
+  // GROUP BY S.id, P.url, P.thumbnail_url, SK.size, SK.quantity
+  // LIMIT ${limit}
   // `)
 }
 
