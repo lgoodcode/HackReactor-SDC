@@ -15,10 +15,10 @@ jobs:
       - node/install-packages:
           pkg-manager: npm
         # Need to exit the commands with a non-zero code to fail fast
-      # - run:
-      #     name: Test
-      #     # https://circleci.com/docs/collect-test-data/#jest
-      #     command: npm test --runInBand || exit 1
+      - run:
+          name: Test
+          # https://circleci.com/docs/collect-test-data/#jest
+          command: npm test --runInBand || exit 1
       - run:
           name: Build
           command: npm run build || exit 1
@@ -31,4 +31,3 @@ workflows:
       #     base_revision: << pipeline.git.base_revision >>
       #     revision: <<pipeline.git.revision>>
       - test_and_build
-

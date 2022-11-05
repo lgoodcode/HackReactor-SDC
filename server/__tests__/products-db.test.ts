@@ -1,12 +1,15 @@
+import { config as dotenv } from 'dotenv'
 import request from 'supertest'
 import app from '../app'
-import { config as dotenv } from 'dotenv'
 import results from './mocks/results'
 
 // Need to actually use the database to determine if the query is correct
 dotenv()
 
-describe('Products API', () => {
+// Skip this test suite that uses the real database if the CI environment variable is set to true
+const maybe = process.env.CI === 'true' ? describe.skip : describe
+
+maybe('Products API - Real DB', () => {
   describe('GET /products', () => {
     it('should return the default count of the first 5 products', async () => {
       await request(app)
@@ -80,7 +83,7 @@ describe('Products API', () => {
         })
     })
 
-    it('should return the product details for the given id', async () => {
+    it('should return the product styles for the given id', async () => {
       await request(app)
         .get('/api/products/1/styles')
         .expect(200)
@@ -91,12 +94,19 @@ describe('Products API', () => {
   })
 
   describe('GET /products/:id/related', () => {
-    it('should return the product details for the given id', async () => {
+    it("should return status 400 if the id is not valid or doesn't exist", async () => {
       await request(app)
-        .get('/api/products/1')
-        .expect(200)
+        .get('/api/products/test')
+        .expect(400)
         .expect((res) => {
-          expect(res.body).toEqual(results.getProductDetails)
+          expect(res.body).toHaveProperty('error')
+        })
+
+      await request(app)
+        .get('/api/products/0')
+        .expect(400)
+        .expect((res) => {
+          expect(res.body).toHaveProperty('error')
         })
     })
 
