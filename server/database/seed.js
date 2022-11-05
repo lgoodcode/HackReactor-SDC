@@ -22,9 +22,9 @@ const main = async () => {
   const files = await promisify(readdir)(join(process.cwd(), 'data'))
   // Sort the files so that the referenced tables are created first
   const sortedFiles = files.reduce((arr, filename) => {
-    if (filename === 'product.csv') {
+    if (filename === 'products.csv') {
       return [filename, ...arr]
-    } else if (filename === 'style.csv') {
+    } else if (filename === 'styles.csv') {
       const [first, ...rest] = arr
       return [first, filename, ...rest]
     }
@@ -44,7 +44,7 @@ const main = async () => {
 
     exec(
       `psql ${PG_ARGS} -c "\copy ${tableName} FROM '${join(
-        __dirname,
+        process.cwd(),
         'data',
         file
       )}' DELIMITER ',' CSV HEADER"`,
