@@ -16,6 +16,9 @@
 # eslint cache
 .eslintcache
 
+# tsbuildinfo
+*.tsbuildinfo
+
 # miscgit
 .DS_Store
 *.pem
