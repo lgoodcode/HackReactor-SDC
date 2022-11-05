@@ -22,9 +22,16 @@ export const getProductsStyles = (req: Request, res: Response) => {
   handleQuery(res, productStyles, id)
 }
 
-export const getProductsRelated = (req: Request, res: Response) => {
+export const getRelatedProducts = (req: Request, res: Response) => {
   const { params } = req
   const { id } = params
 
   handleQuery(res, productsRelated, id)
+}
+
+export default {
+  getProducts,
+  getProductsDetails,
+  getProductsStyles,
+  getRelatedProducts,
 }

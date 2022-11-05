@@ -98,6 +98,8 @@ export const productStyles = async (id: number) => {
 
     if (!styles) return null
 
+    // Need to specify `styleId` because mongo will set the field name based on the
+    // header in the CSV file imported. Can't change because all programs crash lol
     const photos = await Photo.find({ styleId: id }).select('-_id url thumbnail_url')
     const skus = await Sku.find({ style_id: id }).select('-_id id size quantity')
 
