@@ -1,21 +1,29 @@
 {
-  "name": "zombies",
+  "name": "sdc-product",
   "version": "1.0.0",
-  "description": "",
-  "author": "",
+  "description": "Hack Reactor SDC Project - Products API",
+  "author": "Lawrence Good - Lawrence.Good55@Gmail.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Zombies-Hackreactor/Lawrence-SDC.git"
+  },
   "scripts": {
     "start": "node dist/server.js",
     "build": "cross-env NODE_ENV=production npx webpack",
     "dev": "cross-env NODE_ENV=development npx webpack",
-    "db:reset": "psql -U postgres -a -f server/database/queries/reset.sql",
-    "db:seed": "ts-node server/database/seed.js",
-    "lint": "npx eslint --cache --fix server/**/*.ts"
+    "lint": "npx eslint --cache --fix server/**/*.ts",
+    "typecheck": "tsc --noEmit",
+    "db:sql:reset": "psql -U postgres -a -f server/database/queries/reset.sql",
+    "db:sql:seed": "ts-node server/database/seed.js"
   },
   "nodemonConfig": {
     "ts": "ts-node",
     "watch": [
       "server/**/*"
     ]
+  },
+  "lint-staged": {
+    "server/**/*.ts": "eslint --cache --fix"
   },
   "devDependencies": {
     "@swc/cli": "^0.1.57",
@@ -31,12 +39,11 @@
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "eslint": "^8.26.0",
-    "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "fork-ts-checker-webpack-plugin": "^7.2.13",
     "husky": "^8.0.1",
-    "lint-staged": "^13.0.3",
+    "lint-staged": "^12.5.0",
     "nodemon-webpack-plugin": "^4.8.1",
     "prettier": "^2.7.1",
     "swc-loader": "^0.2.3",
@@ -48,7 +55,6 @@
     "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
-    "@prisma/client": "^4.5.0",
     "express": "^4.18.2",
     "mongoose": "^6.7.1",
     "pg": "^8.8.0"

@@ -11,7 +11,11 @@
       "anonymous": "always",
       "named": "never",
       "asyncArrow": "always"
-    }]
+    }],
+    // Allow explicity `any` types when needed
+    "@typescript-eslint/no-explicit-any": "off",
+    // Allow to ignore ts errors when explicity needed
+    "@typescript-eslint/ban-ts-comment": "off"
   },
   // Ignore the build files
   "ignorePatterns": ["dist"]
