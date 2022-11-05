@@ -12,6 +12,10 @@ export const getProductsDetails = (req: Request, res: Response) => {
   const { params } = req
   const { id } = params
 
+  if (isNaN(Number(id))) {
+    return res.status(400).json({ error: 'Invalid id' })
+  }
+
   handleQuery(res, productsDetails, id)
 }
 
@@ -19,12 +23,20 @@ export const getProductsStyles = (req: Request, res: Response) => {
   const { params } = req
   const { id } = params
 
+  if (isNaN(Number(id))) {
+    return res.status(400).json({ error: 'Invalid id' })
+  }
+
   handleQuery(res, productsStyles, id)
 }
 
 export const getRelatedProducts = (req: Request, res: Response) => {
   const { params } = req
   const { id } = params
+
+  if (isNaN(Number(id))) {
+    return res.status(400).json({ error: 'Invalid id' })
+  }
 
   handleQuery(res, productsRelated, id)
 }
