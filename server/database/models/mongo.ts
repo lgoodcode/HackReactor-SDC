@@ -3,13 +3,27 @@ import mongoose from 'mongoose'
 
 dotenv()
 
-if (!process.env.MONGODB_URI) {
+const { MONGODB_URI } = process.env
+
+if (!MONGODB_URI && process.env.CI !== 'true') {
   throw new Error('MONGODB_URI is not defined')
 }
 
-mongoose.connect(process.env.MONGODB_URI)
+// When running tests in CI, we need to have a mock mongoose object to prevent
+// the tests from crashing.
+const mongo = (
+  process.env.CI !== 'true'
+    ? mongoose
+    : {
+        connect: () => null,
+        Schema: class Schema {},
+        model: () => null,
+      }
+) as typeof mongoose
 
-const productSchema = new mongoose.Schema({
+mongo.connect(MONGODB_URI || '')
+
+const productSchema = new mongo.Schema({
   id: Number,
   name: String,
   slogan: String,
@@ -18,7 +32,7 @@ const productSchema = new mongoose.Schema({
   default_price: String,
 })
 
-const styleSchema = new mongoose.Schema({
+const styleSchema = new mongo.Schema({
   id: Number,
   product_id: Number,
   name: String,
@@ -27,39 +41,39 @@ const styleSchema = new mongoose.Schema({
   default_style: Number,
 })
 
-const featureSchema = new mongoose.Schema({
+const featureSchema = new mongo.Schema({
   id: Number,
   product_id: Number,
   feature: String,
   value: String,
 })
 
-const photoSchema = new mongoose.Schema({
+const photoSchema = new mongo.Schema({
   id: Number,
   styleId: Number,
   thumbnail_url: String,
   url: String,
 })
 
-const relatedSchema = new mongoose.Schema({
+const relatedSchema = new mongo.Schema({
   id: Number,
   product_id: Number,
   related_product_id: Number,
 })
 
-const skuSchema = new mongoose.Schema({
+const skuSchema = new mongo.Schema({
   id: Number,
   style_id: Number,
   size: String,
   quantity: Number,
 })
 
-const Product = mongoose.model('Product', productSchema)
-const Style = mongoose.model('Style', styleSchema)
-const Feature = mongoose.model('Feature', featureSchema)
-const Photo = mongoose.model('Photo', photoSchema)
-const Related = mongoose.model('Related', relatedSchema)
-const Sku = mongoose.model('Sku', skuSchema)
+const Product = mongo.model('Product', productSchema)
+const Style = mongo.model('Style', styleSchema)
+const Feature = mongo.model('Feature', featureSchema)
+const Photo = mongo.model('Photo', photoSchema)
+const Related = mongo.model('Related', relatedSchema)
+const Sku = mongo.model('Sku', skuSchema)
 const PAGE = 1
 const COUNT = 5
 

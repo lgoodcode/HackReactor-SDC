@@ -3,11 +3,13 @@ import { Pool } from 'pg'
 
 dotenv()
 
-if (!process.env.DATABASE_URI) {
+const { DATABASE_URI } = process.env
+
+if (!DATABASE_URI && process.env.CI !== 'true') {
   throw new Error('DATABASE_URI environment variable is not set')
 }
 
-const db = new Pool({ connectionString: process.env.DATABASE_URI })
+const db = new Pool({ connectionString: DATABASE_URI })
 
 const PAGE = 1
 const COUNT = 5

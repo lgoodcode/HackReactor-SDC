@@ -16,7 +16,8 @@
     "lint": "npx eslint --cache --fix server/**/*.ts",
     "typecheck": "tsc --noEmit",
     "db:sql:reset": "psql -U postgres -a -f server/database/queries/reset.sql",
-    "db:sql:seed": "ts-node server/database/seed.js"
+    "db:sql:seed": "ts-node server/database/seed.js",
+    "db:sql:timing": "psql -U postgres -c \"EXPLAIN ANALYZE SELECT * FROM products\""
   },
   "nodemonConfig": {
     "ts": "ts-node",

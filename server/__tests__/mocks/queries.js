@@ -1,4 +1,4 @@
-const getProducts = [
+const products = [
   {
     id: 1,
     name: 'Camo Onesie',
@@ -45,7 +45,7 @@ const getProducts = [
   },
 ]
 
-const getProductsPage2 = [
+const productsPage2 = [
   {
     id: 6,
     name: 'Pumped Up Kicks',
@@ -92,99 +92,92 @@ const getProductsPage2 = [
   },
 ]
 
-const getProductDetails = {
-  id: 1,
-  name: 'Camo Onesie',
-  slogan: 'Blend in to your crowd',
-  description:
-    'The So Fatigues will wake you up and fit you in. This high energy camo will have you blending in to even the wildest surroundings.',
-  category: 'Jackets',
-  default_price: '140',
-  features: [
-    {
-      feature: 'Fabric',
-      value: 'Canvas',
-    },
-    {
-      feature: 'Buttons',
-      value: 'Brass',
-    },
-  ],
-}
-
-const getProductStyles = {
-  style_id: 1,
-  name: 'Forest Green & Black',
-  original_price: '140',
-  sale_price: '0',
-  'default?': true,
-  photos: [
-    {
-      url: 'https://images.unsplash.com/photo-1501088430049-71c79fa3283e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80',
-      thumbnail_url:
-        'https://images.unsplash.com/photo-1501088430049-71c79fa3283e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1534011546717-407bced4d25c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2734&q=80',
-      thumbnail_url:
-        'https://images.unsplash.com/photo-1534011546717-407bced4d25c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1549831243-a69a0b3d39e0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2775&q=80',
-      thumbnail_url:
-        'https://images.unsplash.com/photo-1549831243-a69a0b3d39e0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1527522883525-97119bfce82d?ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80',
-      thumbnail_url:
-        'https://images.unsplash.com/photo-1527522883525-97119bfce82d?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1556648202-80e751c133da?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80',
-      thumbnail_url:
-        'https://images.unsplash.com/photo-1556648202-80e751c133da?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1532543491484-63e29b3c1f5d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
-      thumbnail_url:
-        'https://images.unsplash.com/photo-1532543491484-63e29b3c1f5d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80',
-    },
-  ],
-  skus: {
-    1: {
-      size: 'XS',
-      quantity: 8,
-    },
-    2: {
-      size: 'S',
-      quantity: 16,
-    },
-    3: {
-      size: 'M',
-      quantity: 17,
-    },
-    4: {
-      size: 'L',
-      quantity: 10,
-    },
-    5: {
-      size: 'XL',
-      quantity: 15,
-    },
-    6: {
-      size: 'XL',
-      quantity: 4,
-    },
+const features = [
+  {
+    feature: 'Fabric',
+    value: 'Canvas',
   },
-}
+  {
+    feature: 'Buttons',
+    value: 'Brass',
+  },
+]
 
-const getRelatedProducts = [2, 3, 8, 7]
+const styles = [
+  {
+    id: 1,
+    product_id: 1,
+    name: 'Forest Green & Black',
+    sale_price: null,
+    original_price: '140',
+    default_style: 1,
+  },
+]
+
+const photos = [
+  {
+    url: 'https://images.unsplash.com/photo-1501088430049-71c79fa3283e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80',
+    thumbnail_url:
+      'https://images.unsplash.com/photo-1501088430049-71c79fa3283e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1534011546717-407bced4d25c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2734&q=80',
+    thumbnail_url:
+      'https://images.unsplash.com/photo-1534011546717-407bced4d25c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1549831243-a69a0b3d39e0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2775&q=80',
+    thumbnail_url:
+      'https://images.unsplash.com/photo-1549831243-a69a0b3d39e0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1527522883525-97119bfce82d?ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80',
+    thumbnail_url:
+      'https://images.unsplash.com/photo-1527522883525-97119bfce82d?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1556648202-80e751c133da?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80',
+    thumbnail_url:
+      'https://images.unsplash.com/photo-1556648202-80e751c133da?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1532543491484-63e29b3c1f5d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
+    thumbnail_url:
+      'https://images.unsplash.com/photo-1532543491484-63e29b3c1f5d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80',
+  },
+]
+
+const skus = [
+  { id: 1, size: 'XS', quantity: 8 },
+  { id: 2, size: 'S', quantity: 16 },
+  { id: 3, size: 'M', quantity: 17 },
+  { id: 4, size: 'L', quantity: 10 },
+  { id: 5, size: 'XL', quantity: 15 },
+  { id: 6, size: 'XL', quantity: 4 },
+]
+
+const related = [
+  {
+    related_product_id: 2,
+  },
+  {
+    related_product_id: 3,
+  },
+  {
+    related_product_id: 8,
+  },
+  {
+    related_product_id: 7,
+  },
+]
 
 module.exports = {
-  getProducts,
-  getProductsPage2,
-  getProductsCount10: getProducts.concat(getProductsPage2),
-  getProductDetails,
-  getProductStyles,
-  getRelatedProducts,
+  products,
+  productsPage2,
+  productsCount10: products.concat(productsPage2),
+  features,
+  styles,
+  photos,
+  skus,
+  related,
 }
