@@ -28,8 +28,9 @@ module.exports = {
   // paths that should not be transformed
   // https://jestjs.io/docs/configuration#transformignorepatterns-arraystring
   transformIgnorePatterns: ['[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$'],
+  // Maps module paths
   moduleNameMapper: {
-    // Handles our custom webpack aliases
+    // Handles the custom webpack alias
     // () is group capture; capture the directory and then the file path
     // $1/$2 are match references; $1 is the directory and then $2 is the relative file path
     '^@/(.*)/(.*)$': '<rootDir>/server/$1/$2',
