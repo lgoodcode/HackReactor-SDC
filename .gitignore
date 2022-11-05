@@ -11,14 +11,6 @@
 # production
 /dist
 
-/data
-
-# eslint cache
-.eslintcache
-
-# tsbuildinfo
-*.tsbuildinfo
-
 # miscgit
 .DS_Store
 *.pem
@@ -29,9 +21,18 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+# eslint cache
+.eslintcache
+
+# tsbuildinfo
+*.tsbuildinfo
+
 # env files
 .env
 
 # personal notes
 NOTES.md
 TODO.md
+
+# CSV files
+/data
