@@ -17,7 +17,10 @@
     "typecheck": "tsc --noEmit",
     "db:sql:reset": "psql -U postgres -a -f server/database/queries/reset.sql",
     "db:sql:seed": "ts-node server/database/seed.js",
-    "db:sql:timing": "psql -U postgres -c \"EXPLAIN ANALYZE SELECT * FROM products\""
+    "db:sql:timing": "psql -U postgres -c \"EXPLAIN ANALYZE SELECT * FROM products\"",
+    "stress-test": "ts-node scripts/stress-test.ts",
+    "stress-test:run": "artillery run --output .artillery/results.json .artillery/stress-test.yml && npm run stress-test:report",
+    "stress-test:report": "artillery report .artillery/results.json"
   },
   "nodemonConfig": {
     "ts": "ts-node",
