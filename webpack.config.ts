@@ -54,12 +54,7 @@ const config: Configuration = {
   },
   // Specify the plugins to use to process the bundle
   plugins: [
-    // Only load local .env file in development
-    isProd
-      ? undefined
-      : new DotenvWebpackPlugin({
-          systemvars: true,
-        }),
+    new DotenvWebpackPlugin({ systemvars: true }),
     // Watches the files and restarts the server on changes
     isProd
       ? undefined

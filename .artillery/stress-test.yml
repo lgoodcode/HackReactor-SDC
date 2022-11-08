@@ -1,0 +1,59 @@
+config:
+  target: 'http://localhost:4000/api'
+
+  # Define ids to iterate over to request
+  variables:
+    ids:
+      - ['1', '2', '3', '4', '5']
+  # Each load phase is used to define the number or users to generate and how
+  # frequently the traffic sends requests to the backend.
+  # https://www.artillery.io/docs/guides/getting-started/writing-your-first-test#load-phases
+  phases:
+    # Slow warm up - sends 5 users every second for a minute
+    - duration: 60
+      arrivalRate: 5
+      name: Warm up
+    # Starts with 5 users and gradually increases to 50 per second over 2 minutes
+    - duration: 120
+      arrivalRate: 5
+      rampTo: 50
+      name: Ramp up load
+    # Maintain 50 users a second over 5 minutes
+    - duration: 600
+      arrivalRate: 50
+      name: Sustained load
+
+scenarios:
+  - name: products
+    flow:
+      - loop:
+          - get:
+              url: '/products'
+              name: products
+        # Number of requests to make per user
+        count: 3
+
+  - name: details
+    flow:
+      - loop:
+          - get:
+              url: '/products/{{ $loopElement }}'
+              name: details
+        # https://www.artillery.io/docs/guides/guides/http-reference#looping-through-an-array
+        over: ids
+
+  - name: styles
+    flow:
+      - loop:
+          - get:
+              url: '/products/{{ $loopElement }}/styles'
+              name: styles
+        over: ids
+
+  - name: related
+    flow:
+      - loop:
+          - get:
+              url: '/products/{{ $loopElement }}/related'
+              name: related
+        over: ids

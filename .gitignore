@@ -37,5 +37,6 @@ TODO.md
 # CSV files
 /database/data
 
-# Artillery
-/.artillery
+# Artillery results
+.artillery/*.json
+.artillery/*.html

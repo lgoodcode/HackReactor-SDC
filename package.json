@@ -18,9 +18,10 @@
     "db:sql:reset": "psql -U postgres -a -f database/reset.sql",
     "db:sql:seed": "ts-node scripts/seed.js",
     "db:sql:timing": "psql -U postgres -c \"EXPLAIN ANALYZE SELECT * FROM products\"",
-    "stress-test": "ts-node scripts/stress-test.ts",
-    "stress-test:run": "artillery run --output .artillery/results.json .artillery/stress-test.yml && npm run stress-test:report",
-    "stress-test:report": "artillery report .artillery/results.json"
+    "stress-test": "ts-node scripts/stress-test-k6.ts",
+    "stress-test:artillery": "ts-node scripts/stress-test-artillery.ts",
+    "stress-test:artillery:run": "artillery run --output .artillery/results.json .artillery/stress-test.yml && npm run stress-test:report",
+    "stress-test:artillery:report": "artillery report .artillery/results.json"
   },
   "nodemonConfig": {
     "ts": "ts-node",
@@ -39,6 +40,7 @@
     "@types/dotenv-webpack": "^7.0.3",
     "@types/express": "^4.17.14",
     "@types/jest": "^29.2.2",
+    "@types/k6": "^0.41.0",
     "@types/node": "^18.11.8",
     "@types/pg": "^8.6.5",
     "@types/supertest": "^2.0.12",
@@ -52,6 +54,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "fork-ts-checker-webpack-plugin": "^7.2.13",
     "husky": "^8.0.1",
+    "k6": "^0.0.0",
     "lint-staged": "^12.5.0",
     "nodemon-webpack-plugin": "^4.8.1",
     "prettier": "^2.7.1",
