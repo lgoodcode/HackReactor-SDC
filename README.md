@@ -6,7 +6,7 @@
 `PGPORT` - The port of the PostgreSQL database - ***default: 5432***\
 `PGUSER` - The user of the PostgreSQL database\
 `PGPASSWORD` - The password to the PostgreSQL database to be able to use the `db:sql:seed` script
-without interruption for each `COPY` command.\
+without interruption for each `\copy` command.\
 `MONGODB_URI` - The URI connection to the MongoDB database
 
 ### **Local Development Environment**
@@ -27,11 +27,34 @@ should be manually set in the environment.
 
 ## Database
 
+### **Performance**
+
+`GET /products`
+- Original - `0.015ms` - Retrieve products with a limit\
+
+`GET /products/:id`
+- Original - `90ms` - Originally 2 separate queries on products and features table\
+- *Optimized* - `57ms` - Now a single query with a join on the features table and index on the product_id column
+
+`GET /products/:id/styles`
+- Original - `65ms` - Retrieve all styles for a product\
+- Original - `490ms` - Retrieve all photos for all styles for a product\
+- Original - `254ms` - Retrieve all skus for all styles for a product\
+- *Original Server Response Time* - `2.5s` - Total time for all 3 queries and transformation sent to client\
+- *Optimized* - `1.3s` - Retrieve all styles and the photos and skus for each style for a product through 
+a single query that joins all tables together and transforms within the database.\
+
+`GET /products/:product_id/related`
+- Original - `105ms` - Retrieve all related products for a product\
+- No optimization needed and using an index didn't provide any performance improvements.
+
 ### **Timing**
 
 To check the timing for the a query, run the following command:
 
 `npm run db:sql:timing`
+
+or prefix a query with `EXPLAIN ANALYZE` to view the exectution time.
 
 ### **Seeding**
 
@@ -46,6 +69,16 @@ for each file. The `PGUSER` and `PGDATABASE` are also required to specify which 
 
 For some reason, within the model for the PostgreSQL database, double quotes are required around
 the column names. This is why underscre_case is used and not camelCase.
+
+#### **Commands**
+
+`\c <database>` - Connect to a database\
+`\dt` - List all tables in the current database\
+`\d <table>` - List all columns in a table\
+`\copy <table> FROM <file> WITH (FORMAT csv, HEADER true)` - Copy data from a file into a table
+`EXPLAIN ANALYZE SELECT * FROM <table>` - Explain the query and show the timing
+`SELECT tablename, indexname, indexdef FROM pg_indexes WHERE schemaname = 'public'` - Shows the indexes
+for the current database and schema.
 
 ### **MongoDB**
 

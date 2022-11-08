@@ -5,8 +5,7 @@ import queries from './mocks/queries'
 import results from './mocks/results'
 
 // Skip this test suite that mocks the database if the CI environment variable is not set to true
-// const maybe = process.env.CI !== 'true' ? describe.skip : describe
-const maybe = describe
+const maybe = process.env.CI !== 'true' ? describe.skip : describe
 
 maybe('Products API - Mocked DB', () => {
   // Need to explicity set the types for spyOn so that we can set the return value
@@ -75,10 +74,9 @@ maybe('Products API - Mocked DB', () => {
     })
 
     it('should return the product details for the given id', async () => {
-      // Mock the products and then the features queries
-      querySpy
-        .mockResolvedValueOnce({ rows: queries.products.slice(0, 1) })
-        .mockResolvedValueOnce({ rows: queries.features })
+      querySpy.mockResolvedValueOnce({
+        rows: [results.getProductDetails],
+      })
 
       await request(app)
         .get('/api/products/1')
@@ -87,7 +85,7 @@ maybe('Products API - Mocked DB', () => {
           expect(res.body).toEqual(results.getProductDetails)
         })
 
-      expect(querySpy).toHaveBeenCalledTimes(2)
+      expect(querySpy).toHaveBeenCalledTimes(1)
     })
   })
 
@@ -111,21 +109,16 @@ maybe('Products API - Mocked DB', () => {
     })
 
     it('should return the product styles for the given id', async () => {
-      // Mock the styles, photos, and skus queries
-      // A single style query and then a query for each style, which is 6 styles for the test data
       querySpy.mockResolvedValueOnce({ rows: queries.styles })
-      queries.photos.forEach((photo) => querySpy.mockResolvedValueOnce({ rows: photo }))
-      queries.skus.forEach((sku) => querySpy.mockResolvedValueOnce({ rows: sku }))
 
       await request(app)
         .get('/api/products/1/styles')
         .expect(200)
         .expect((res) => {
-          console.log(res.body)
           expect(res.body).toEqual(results.getProductStyles)
         })
-      // 1 style query + 6 photo queries + 6 sku queries
-      expect(querySpy).toHaveBeenCalledTimes(13)
+
+      expect(querySpy).toHaveBeenCalledTimes(1)
     })
   })
 

@@ -14,63 +14,48 @@ const COUNT = 5
 
 export const products = async (page = PAGE, count = COUNT) => {
   const offset = (page - 1) * count
-
   const products = await db.query(`SELECT * FROM products OFFSET ${offset} LIMIT ${count}`)
   return products.rows
 }
 
 export const productsDetails = async (id: number) => {
-  const product = await db.query(`SELECT * FROM products WHERE id = ${id}`)
+  const result = await db.query(`
+    SELECT
+      P.*,
+      jsonb_agg(DISTINCT jsonb_build_object('feature', F.feature, 'value', F.value)) as features
+    FROM products AS P
+    LEFT JOIN features AS F
+    ON P.id = F.product_id
+    WHERE P.id = ${id}
+    GROUP BY P.id`)
 
-  if (!product.rows[0]) return null
-
-  const features = await db.query(`SELECT feature, value FROM features WHERE product_id = ${id}`)
-
-  return {
-    ...product.rows[0],
-    features: features.rows,
-  }
+  return !result.rows.length ? null : result.rows[0]
 }
 
 export const productsStyles = async (id: number) => {
-  const styles = await db.query(`SELECT * FROM styles WHERE "productId" = ${id}`)
+  const styles = await db.query(`
+    SELECT
+        S.*,
+        jsonb_agg(DISTINCT jsonb_build_object('thumbnail_url', P.thumbnail_url, 'url', P.url)) AS photos,
+        jsonb_object_agg(SK.id, to_jsonb(SK) - 'styleId' - 'id') AS skus
+    FROM styles AS S
+    INNER JOIN photos AS P
+    ON S.id = P."styleId"
+    INNER JOIN skus AS SK
+    ON S.id = SK."styleId"
+    WHERE S."productId" = ${id}
+    GROUP BY S.id`)
 
   if (!styles.rows.length) return null
 
-  // For some reason these queries need to use quotes around the column names.
-  // This is why underscore_case is used for the column names and not camelCase.
-  const photos = await Promise.all(
-    styles.rows.map(async (style) => {
-      const result = await db.query(
-        `SELECT "url", "thumbnail_url" FROM photos WHERE "styleId" = ${style.id}`
-      )
-      return result.rows
-    })
-  )
-
-  const skus = await Promise.all(
-    styles.rows.map(async (style) => {
-      const result = await db.query(
-        `SELECT "id", "size", "quantity" FROM skus WHERE "styleId" = ${style.id}`
-      )
-      return result.rows
-    })
-  )
-
-  return styles.rows.map((style, i) => ({
+  return styles.rows.map((style) => ({
     style_id: style.id,
     name: style.name,
     original_price: style.original_price,
     sale_price: style.sale_price !== 'null' ? style.sale_price : '0',
     'default?': Boolean(style.default_style),
-    photos: photos[i],
-    skus: skus[i].reduce(
-      (acc, { id, size, quantity }) => ({
-        ...acc,
-        [id]: { size, quantity },
-      }),
-      {}
-    ),
+    photos: style.photos,
+    skus: style.skus,
   }))
 }
 

@@ -5,7 +5,7 @@ import { spawn, spawnSync } from 'child_process'
 import { config as dotenv } from 'dotenv'
 
 // Load the environment variables neccessary to run the PostgreSQL commands
-dotenv({ path: '.env.local' })
+dotenv()
 
 // The base args to specify the user and the database
 const PG_ARGS = `-U ${process.env.PGUSER} -d ${process.env.PGDATABASE}`
