@@ -6,7 +6,7 @@
 `PGPORT` - The port of the PostgreSQL database - ***default: 5432***\
 `PGUSER` - The user of the PostgreSQL database\
 `PGPASSWORD` - The password to the PostgreSQL database to be able to use the `db:sql:seed` script
-without interruption for each `COPY` command.\
+without interruption for each `\copy` command.\
 `MONGODB_URI` - The URI connection to the MongoDB database
 
 ### **Local Development Environment**

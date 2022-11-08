@@ -121,7 +121,6 @@ maybe('Products API - Mocked DB', () => {
         .get('/api/products/1/styles')
         .expect(200)
         .expect((res) => {
-          console.log(res.body)
           expect(res.body).toEqual(results.getProductStyles)
         })
       // 1 style query + 6 photo queries + 6 sku queries
