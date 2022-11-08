@@ -97,3 +97,24 @@ The former is used for truly testing that the database is returning the proper r
 queries and returning the proper data.
 
 
+## **Stress Testing**
+
+### **Artillery**
+
+The initial stress testing was done with the `artillery` package. The `artillery.yml` file, located in
+`.artillery`, contains the configuration for the stress testing. The `artillery` package is installed
+globally, so it can be run from anywhere.
+
+It generates a json report that can be used to generate a report with the `artillery report` command.
+
+The single `stress-test:artillery` script is used to run the stress test and then executes the `report`.
+
+### **K6**
+
+The K6 package is used as an additional stress testing tool. The `k6.yml` file, located in `.k6`, contains
+the configuration for the stress testing.
+
+The K6 package is installed via Docker so it isn't able to easily generate the report but rather, outputs
+useful information to the console.
+
+It is executed using a Powershell script to execute the configuration file through Docker.
