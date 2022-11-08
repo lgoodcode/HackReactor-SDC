@@ -28,14 +28,14 @@ yarn-error.log*
 *.tsbuildinfo
 
 # env files
-.env
+.env*
 
 # personal notes
 NOTES.md
 TODO.md
 
 # CSV files
-/data
+/database/data
 
 # Artillery
 /.artillery

@@ -1,6 +1,6 @@
 import request from 'supertest'
-import app from '../app'
 import { Pool } from 'pg'
+import app from '../app'
 import queries from './mocks/queries'
 import results from './mocks/results'
 

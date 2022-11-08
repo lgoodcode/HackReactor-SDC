@@ -1,4 +1,4 @@
-import { products, productsDetails, productsRelated, productsStyles } from '@/database/models/sql'
+import { products, productsDetails, productsRelated, productsStyles } from '@/models/sql'
 import handleQuery from '@/utils/handleQuery'
 
 export const getProducts = (req: Request, res: Response) => {

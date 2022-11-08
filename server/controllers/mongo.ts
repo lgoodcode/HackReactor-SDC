@@ -1,4 +1,4 @@
-import { products, productsDetails, productStyles, productsRelated } from '@/database/models/mongo'
+import { products, productsDetails, productStyles, productsRelated } from '@/models/mongo'
 import handleQuery from '@/utils/handleQuery'
 
 export const getProducts = (req: Request, res: Response) => {

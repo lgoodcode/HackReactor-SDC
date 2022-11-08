@@ -17,7 +17,7 @@ CREATE TABLE products (
 
 CREATE TABLE styles (
   "id" INT NOT NULL PRIMARY KEY,
-  "product_id" INT NOT NULL REFERENCES products(id),
+  "productId" INT NOT NULL REFERENCES products(id),
   "name" TEXT,
   "sale_price" TEXT,
   "original_price" TEXT,
@@ -33,20 +33,20 @@ CREATE TABLE features (
 
 CREATE TABLE photos (
   "id" INT NOT NULL PRIMARY KEY,
-  "style_id" INT NOT NULL REFERENCES styles(id),
+  "styleId" INT NOT NULL REFERENCES styles(id),
   "url" TEXT NOT NULL,
   "thumbnail_url" TEXT NOT NULL
 );
 
 CREATE TABLE related (
   "id" INT NOT NULL PRIMARY KEY,
-  "product_id" INT NOT NULL REFERENCES products(id),
+  "current_product_id" INT NOT NULL REFERENCES products(id),
   "related_product_id" INT NOT NULL
 );
 
 CREATE TABLE skus (
   "id" INT NOT NULL PRIMARY KEY,
-  "style_id" INT NOT NULL REFERENCES styles(id),
+  "styleId" INT NOT NULL REFERENCES styles(id),
   "size" TEXT,
   "quantity" INT
 );

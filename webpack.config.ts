@@ -3,6 +3,7 @@ import nodeExternals from 'webpack-node-externals'
 import TerserPlugin from 'terser-webpack-plugin'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 import NodemonWebpackPlugin from 'nodemon-webpack-plugin'
+import DotenvWebpackPlugin from 'dotenv-webpack'
 import type { Configuration, WebpackPluginInstance } from 'webpack'
 
 const isProd = process.env.NODE_ENV === 'production'
@@ -53,6 +54,12 @@ const config: Configuration = {
   },
   // Specify the plugins to use to process the bundle
   plugins: [
+    // Only load local .env file in development
+    isProd
+      ? undefined
+      : new DotenvWebpackPlugin({
+          systemvars: true,
+        }),
     // Watches the files and restarts the server on changes
     isProd
       ? undefined

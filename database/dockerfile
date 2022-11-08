@@ -1,0 +1,6 @@
+FROM postgres:14 AS db
+WORKDIR /usr/src/app
+# Copy the seed data, and scripts
+COPY ./data/*.csv data/
+COPY reset.sql .
+COPY docker-seed.sh /docker-entrypoint-initdb.d/

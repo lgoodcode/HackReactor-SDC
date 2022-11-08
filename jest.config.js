@@ -20,6 +20,9 @@ module.exports = {
   transform: {
     '^.+\\.ts$': '@swc/jest',
   },
+  // Need to use dotenv to load the environment variables for testing since the dotenv-webpack
+  // plugin is used to handle loading them during dev and build
+  globalSetup: '<rootDir>/server/__tests__/global-setup.js',
   // Need to end the process because mongoose will remain open, this file will export
   // a function that simply kills Node
   // https://stackoverflow.com/a/71143769/17703865
@@ -28,7 +31,7 @@ module.exports = {
   // paths that should not be transformed
   // https://jestjs.io/docs/configuration#transformignorepatterns-arraystring
   transformIgnorePatterns: ['[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$'],
-  // Maps module paths
+  // Maps custom mode paths to their actual path
   moduleNameMapper: {
     // Handles the custom webpack alias
     // () is group capture; capture the directory and then the file path

@@ -108,7 +108,7 @@ const styles = [
     id: 1,
     product_id: 1,
     name: 'Forest Green & Black',
-    sale_price: null,
+    sale_price: 'null',
     original_price: '140',
     default_style: 1,
   },

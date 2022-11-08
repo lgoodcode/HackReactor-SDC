@@ -1,16 +1,14 @@
-import { config as dotenv } from 'dotenv'
 import { Pool } from 'pg'
 
-dotenv()
-
-const { DATABASE_URI } = process.env
-
-if (!DATABASE_URI && process.env.CI !== 'true') {
-  throw new Error('DATABASE_URI environment variable is not set')
-}
-
-const db = new Pool({ connectionString: DATABASE_URI })
-
+const isDev = process.env.NODE_ENV !== 'production'
+// Reads the environment variables for connection information
+const db = new Pool({
+  host: isDev ? 'localhost' : process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  port: isDev ? 5432 : Number(process.env.PGPORT),
+  user: process.env.PGUSER,
+  password: process.env.PGPASSWORD,
+})
 const PAGE = 1
 const COUNT = 5
 
@@ -40,14 +38,20 @@ export const productsStyles = async (id: number) => {
 
   if (!data) return null
 
-  const photos = await db.query(`SELECT url, thumbnail_url FROM photos WHERE style_id = ${data.id}`)
-  const skus = await db.query(`SELECT id, size, quantity FROM skus WHERE style_id = ${data.id}`)
+  // For some reason these queries need to use quotes around the column names.
+  // This is why underscore_case is used for the column names and not camelCase.
+  const photos = await db.query(
+    `SELECT "url", "thumbnail_url" FROM photos WHERE "styleId" = ${data.id}`
+  )
+  const skus = await db.query(
+    `SELECT "id", "size", "quantity" FROM skus WHERE "styleId" = ${data.id}`
+  )
 
   return {
     style_id: data.id,
     name: data.name,
     original_price: data.original_price,
-    sale_price: data.sale_price || '0',
+    sale_price: data.sale_price !== 'null' ? data.sale_price : '0',
     'default?': Boolean(data.default_style),
     photos: photos.rows,
     skus: skus.rows.reduce(
@@ -61,7 +65,9 @@ export const productsStyles = async (id: number) => {
 }
 
 export const productsRelated = async (id: number) => {
-  const related = await db.query(`SELECT related_product_id FROM related WHERE product_id = ${id}`)
+  const related = await db.query(
+    `SELECT related_product_id FROM related WHERE current_product_id = ${id}`
+  )
 
   return related.rows.map((product) => product.related_product_id)
 }

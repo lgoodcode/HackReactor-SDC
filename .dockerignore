@@ -1,0 +1,8 @@
+node_modules
+database
+dist
+scripts
+.artillery
+.circleci
+.husky
+client

@@ -1,13 +1,4 @@
-import { config as dotenv } from 'dotenv'
 import mongoose from 'mongoose'
-
-dotenv()
-
-const { MONGODB_URI } = process.env
-
-if (!MONGODB_URI && process.env.CI !== 'true') {
-  throw new Error('MONGODB_URI is not defined')
-}
 
 // When running tests in CI, we need to have a mock mongoose object to prevent
 // the tests from crashing.
@@ -21,7 +12,7 @@ const mongo = (
       }
 ) as typeof mongoose
 
-mongo.connect(MONGODB_URI || '')
+mongo.connect(process.env.MONGODB_URI || '')
 
 const productSchema = new mongo.Schema({
   id: Number,

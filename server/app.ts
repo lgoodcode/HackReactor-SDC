@@ -1,14 +1,16 @@
 import express from 'express'
 import compression from 'compression'
 import sqlRouter from './router/sql'
-import mongoRouter from './router/mongo'
+// import mongoRouter from './router/mongo'
 
 const app = express()
 
 app.use(compression())
 app.use(express.json())
 
-app.use('/api/mongo', mongoRouter)
+// Only use mongoRouter if not in production
+// app.use('/api/mongo', mongoRouter)
+
 app.use('/api', sqlRouter)
 
 // eslint-disable-next-line

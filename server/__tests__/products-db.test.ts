@@ -1,10 +1,6 @@
-import { config as dotenv } from 'dotenv'
 import request from 'supertest'
 import app from '../app'
 import results from './mocks/results'
-
-// Need to actually use the database to determine if the query is correct
-dotenv()
 
 // Skip this test suite that uses the real database if the CI environment variable is set to true
 const maybe = process.env.CI === 'true' ? describe.skip : describe

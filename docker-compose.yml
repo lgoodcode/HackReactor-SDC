@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  app:
+    container_name: app
+    build:
+      context: .
+      target: app
+    ports:
+      - "${PORT}:${PORT}"
+    environment:
+      - PGHOST=${PGHOST}
+      - PGDATABASE=${PGDATABASE}
+      - PGPORT=${PGPORT}
+      - PGUSER=${PGUSER}
+      - PGPASSWORD=${PGPASSWORD}
+
+  postgres:
+    container_name: postgres
+    build:
+      context: ./database
+      target: db
+    ports:
+      - "${PGPORT}:5432"
+    environment:
+      - POSTGRES_DB=${PGDATABASE}
+      - POSTGRES_USER=${PGUSER}
+      - POSTGRES_PASSWORD=${PGPASSWORD}
