@@ -33,35 +33,45 @@ export const productsDetails = async (id: number) => {
 }
 
 export const productsStyles = async (id: number) => {
-  const styles = await db.query(`SELECT * FROM styles WHERE id = ${id}`)
-  const data = styles.rows[0]
+  const styles = await db.query(`SELECT * FROM styles WHERE "productId" = ${id}`)
 
-  if (!data) return null
+  if (!styles.rows.length) return null
 
   // For some reason these queries need to use quotes around the column names.
   // This is why underscore_case is used for the column names and not camelCase.
-  const photos = await db.query(
-    `SELECT "url", "thumbnail_url" FROM photos WHERE "styleId" = ${data.id}`
-  )
-  const skus = await db.query(
-    `SELECT "id", "size", "quantity" FROM skus WHERE "styleId" = ${data.id}`
+  const photos = await Promise.all(
+    styles.rows.map(async (style) => {
+      const result = await db.query(
+        `SELECT "url", "thumbnail_url" FROM photos WHERE "styleId" = ${style.id}`
+      )
+      return result.rows
+    })
   )
 
-  return {
-    style_id: data.id,
-    name: data.name,
-    original_price: data.original_price,
-    sale_price: data.sale_price !== 'null' ? data.sale_price : '0',
-    'default?': Boolean(data.default_style),
-    photos: photos.rows,
-    skus: skus.rows.reduce(
+  const skus = await Promise.all(
+    styles.rows.map(async (style) => {
+      const result = await db.query(
+        `SELECT "id", "size", "quantity" FROM skus WHERE "styleId" = ${style.id}`
+      )
+      return result.rows
+    })
+  )
+
+  return styles.rows.map((style, i) => ({
+    style_id: style.id,
+    name: style.name,
+    original_price: style.original_price,
+    sale_price: style.sale_price !== 'null' ? style.sale_price : '0',
+    'default?': Boolean(style.default_style),
+    photos: photos[i],
+    skus: skus[i].reduce(
       (acc, { id, size, quantity }) => ({
         ...acc,
         [id]: { size, quantity },
       }),
       {}
     ),
-  }
+  }))
 }
 
 export const productsRelated = async (id: number) => {

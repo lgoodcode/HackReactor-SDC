@@ -15,7 +15,10 @@ const mongo = (
 mongo.connect(process.env.MONGODB_URI || '')
 
 const productSchema = new mongo.Schema({
-  id: Number,
+  id: {
+    type: Number,
+    required: true,
+  },
   name: String,
   slogan: String,
   description: String,
@@ -24,7 +27,10 @@ const productSchema = new mongo.Schema({
 })
 
 const styleSchema = new mongo.Schema({
-  id: Number,
+  id: {
+    type: Number,
+    required: true,
+  },
   product_id: Number,
   name: String,
   sale_price: String,
@@ -33,27 +39,39 @@ const styleSchema = new mongo.Schema({
 })
 
 const featureSchema = new mongo.Schema({
-  id: Number,
+  id: {
+    type: Number,
+    required: true,
+  },
   product_id: Number,
   feature: String,
   value: String,
 })
 
 const photoSchema = new mongo.Schema({
-  id: Number,
+  id: {
+    type: Number,
+    required: true,
+  },
   styleId: Number,
   thumbnail_url: String,
   url: String,
 })
 
 const relatedSchema = new mongo.Schema({
-  id: Number,
+  id: {
+    type: Number,
+    required: true,
+  },
   product_id: Number,
   related_product_id: Number,
 })
 
 const skuSchema = new mongo.Schema({
-  id: Number,
+  id: {
+    type: Number,
+    required: true,
+  },
   style_id: Number,
   size: String,
   quantity: Number,
@@ -99,30 +117,41 @@ export const productsDetails = async (id: number) => {
 export const productStyles = async (id: number) => {
   try {
     // Need to specify lean() to get a plain JS object instead of a Mongoose document object
-    const styles = await Style.findOne({ product_id: id }).select('-_id').lean()
+    const styles = await Style.find({ product_id: id }).select('-_id').lean()
 
     if (!styles) return null
 
     // Need to specify `styleId` because mongo will set the field name based on the
     // header in the CSV file imported. Can't change because all programs crash lol
-    const photos = await Photo.find({ styleId: id }).select('-_id url thumbnail_url')
-    const skus = await Sku.find({ style_id: id }).select('-_id id size quantity')
+    const photos = await Promise.all(
+      styles.map(
+        async (style) =>
+          await Photo.find({ styleId: style.id }).select('-_id thumbnail_url url').lean()
+      )
+    )
 
-    return {
-      style_id: styles.id,
-      name: styles.name,
-      original_price: styles.original_price,
-      sale_price: styles.sale_price || '0',
-      'default?': Boolean(styles.default_style),
-      photos,
-      skus: skus.reduce(
+    const skus = await Promise.all(
+      styles.map(
+        async (style) =>
+          await Sku.find({ styleId: style.id }).select('-_id id size quantity').lean()
+      )
+    )
+
+    return styles.map((style, i) => ({
+      style_id: style.id,
+      name: style.name,
+      original_price: style.original_price,
+      sale_price: style.sale_price || '0',
+      'default?': Boolean(style.default_style),
+      photos: photos[i],
+      skus: skus[i].reduce(
         (acc, { id, size, quantity }) => ({
           ...acc,
           [id]: { size, quantity },
         }),
         {}
       ),
-    }
+    }))
   } catch (err) {
     return err as Error
   }
