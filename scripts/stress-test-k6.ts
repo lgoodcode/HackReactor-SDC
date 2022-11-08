@@ -1,15 +1,17 @@
-import { readdir } from 'fs'
-import { promisify } from 'util'
 import { spawn } from 'child_process'
+import { readdir } from 'fs'
+import { join } from 'path'
+import { promisify } from 'util'
 
-async function main() {
+// Start the app
+const main = async () => {
   // Check if the built server is present
   const files = await promisify(readdir)('dist')
 
   if (!files.includes('server.js')) {
     console.error('Server is not built. Building server...')
 
-    const build = spawn('node', ['dist/server.js'], {
+    const build = spawn('npm', ['run build'], {
       shell: true,
       stdio: 'inherit',
     })
@@ -25,28 +27,22 @@ async function main() {
   })
 
   // Wait for the server to start
-  await new Promise((res) => {
-    console.log('Waiting for server to start...')
-    setTimeout(res, 3000)
+  await new Promise((res) => setTimeout(res, 1000))
+
+  // Spawn the stress test
+  const test = spawn('pwsh', [join(process.cwd(), '.k6/stress-test.ps1')], {
+    shell: true,
+    stdio: 'inherit',
   })
 
-  try {
-    // Spawn the stress test
-    const stressTest = spawn('npm', ['run', 'stress-test:run'], {
-      shell: true,
-      stdio: 'inherit',
-    })
+  // Wait for the stress test to finish
+  await new Promise((res) => test.on('close', res))
 
-    // Wait for the stress test to finish
-    await new Promise((resolve) => stressTest.on('close', resolve))
-  } catch (err) {
-    console.error(err)
-  }
-
-  // Kill the server
-  server.kill()
+  server.kill(0)
 
   console.log('\nDone!')
+
+  process.exit(0)
 }
 
 main()
