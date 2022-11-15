@@ -27,10 +27,9 @@ const config: Configuration = {
   optimization: {
     minimize: isProd,
     minimizer: [
-      // The plugin used to access the swc engine to minify the bundle
       new TerserPlugin({
         parallel: true,
-        minify: TerserPlugin.swcMinify,
+        minify: TerserPlugin.esbuildMinify,
       }),
     ],
   },
@@ -48,7 +47,11 @@ const config: Configuration = {
       {
         test: /\.ts$/,
         exclude: /node_modules/,
-        use: 'swc-loader',
+        loader: 'esbuild-loader',
+        options: {
+          loader: 'ts',
+          target: 'es2018',
+        },
       },
     ],
   },

@@ -18,7 +18,7 @@ module.exports = {
   // Glob pattern to determine what files to test
   testMatch: ['<rootDir>/server/__tests__/*{spec,test}.ts'],
   transform: {
-    '^.+\\.ts$': '@swc/jest',
+    '^.+\\.ts$': 'esbuild-jest',
   },
   // Need to use dotenv to load the environment variables for testing since the dotenv-webpack
   // plugin is used to handle loading them during dev and build
