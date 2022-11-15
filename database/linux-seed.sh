@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Reset tables
+echo "Resetting tables..."
+sudo -u postgres psql -d sdc -f "./reset.sql"
+
 echo "Importing products data..."
 sudo -u postgres psql -d sdc -c "\copy products FROM './product.csv' DELIMITER ',' CSV HEADER;"
 

@@ -28,11 +28,39 @@ The database only requires the `5432` port to be open for inbound rules for the 
 The server requires port `80` to be open and to forward that port to the server port, which is `4000` by default.
 To forward the port, you can use the following command:
 
-`sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 4000`
+```bash
+sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 4000
+```
 
 To view whether the port forwarding is added, you can use the following command to view the NAT table:
 
-`sudo iptables -t nat -L`
+```bash
+sudo iptables -t nat -L
+```
+
+To access the database from the server, we need to specify the user and password. To do this, we can enter
+the `psql` shell and create a user and password.
+
+Enter the Postgres shell as the `postgres` user:
+```bash
+sudo -u postgres psql
+```
+
+Create the user and only give read privileges to the tables in the database:
+```sql
+CREATE user <username> WITH encrypted password '<password>';
+GRANT SELECT ON ALL TABLES IN SCHEME <schema(public)> to <username>;
+```
+
+If the user needs to modify the data, then you can instead use the following command:
+```sql
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEME <schema(public)> to <username>;
+```
+
+List the users and their roles to confirm the user was created:
+```sql
+\du
+```
 
 ## **Docker**
 
@@ -98,13 +126,14 @@ the column names. This is why underscre_case is used and not camelCase.
 
 #### **Commands**
 
-`\c <database>` - Connect to a database\
-`\dt` - List all tables in the current database\
-`\d <table>` - List all columns in a table\
-`\copy <table> FROM <file> WITH (FORMAT csv, HEADER true)` - Copy data from a file into a table
-`EXPLAIN ANALYZE SELECT * FROM <table>` - Explain the query and show the timing
-`SELECT tablename, indexname, indexdef FROM pg_indexes WHERE schemaname = 'public'` - Shows the indexes
-for the current database and schema.
+```sql
+\c <database> -- Connect to a database\
+\dt -- List all tables in the current database\
+\d <table> -- List all columns in a table\
+\copy <table> FROM <file> WITH (FORMAT csv, HEADER true) -- Copy data from a file into a table
+EXPLAIN ANALYZE SELECT * FROM <table> -- Explain the query and show the timing
+SELECT tablename, indexname, indexdef FROM pg_indexes WHERE schemaname = 'public' -- Shows the indexes for the current database and schema.
+```
 
 ### **MongoDB**
 

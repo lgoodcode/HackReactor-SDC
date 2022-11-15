@@ -5,6 +5,13 @@ DROP TABLE IF EXISTS features CASCADE;
 DROP TABLE IF EXISTS photos CASCADE;
 DROP TABLE IF EXISTS related CASCADE;
 DROP TABLE IF EXISTS skus CASCADE;
+-- Reset indexes
+DROP INDEX IF EXISTS idx_product_id;
+DROP INDEX IF EXISTS idx_styles_id;
+DROP INDEX IF EXISTS idx_features_id;
+DROP INDEX IF EXISTS idx_photos_id;
+DROP INDEX IF EXISTS idx_related_id;
+DROP INDEX IF EXISTS idx_skus_id;
 
 CREATE TABLE products (
   "id" INT NOT NULL PRIMARY KEY,
