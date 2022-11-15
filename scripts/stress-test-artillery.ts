@@ -1,6 +1,6 @@
 import { readdir } from 'fs'
 import { promisify } from 'util'
-import { spawn } from 'child_process'
+import { spawn, spawnSync } from 'child_process'
 
 async function main() {
   // Check if the built server is present
@@ -18,8 +18,8 @@ async function main() {
     await new Promise((res) => build.on('close', res))
   }
 
-  // Spawn the server
-  const server = spawn('node', ['dist/server.js'], {
+  // Spawn the PM2 process
+  spawn('pm2', ['start -i max --name app', 'dist/server.js'], {
     shell: true,
     stdio: 'inherit',
   })
@@ -39,8 +39,11 @@ async function main() {
   // Wait for the stress test to finish
   await new Promise((resolve) => stressTest.on('close', resolve))
 
-  // Kill the server
-  server.kill()
+  // Kill the PM2 process
+  spawnSync('pm2', ['delete app'], {
+    shell: true,
+    stdio: 'inherit',
+  })
 
   console.log('\nDone!')
 

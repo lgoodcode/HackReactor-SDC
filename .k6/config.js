@@ -7,7 +7,7 @@ const MAX_ID = 40000
 const MAX_PAGES = 200
 const MAX_COUNT = 50
 const MAX_SLEEP = 3
-const MAX_ITERATIONS = 100
+// const MAX_ITERATIONS = 100
 const getRandom = (max) => Math.floor(Math.random() * max)
 const randomId = () => getRandom(MAX_ID)
 const randomPage = () => getRandom(MAX_PAGES)
@@ -30,9 +30,16 @@ export const options = {
 }
 
 export default function () {
+  http.get(`${ENDPOINT}/products?page=${randomPage()}&count=${randomCount()}}`, {
+    tags: { name: 'ProductDetails' },
+  })
+
+  sleep(randomSleep())
+
   http.get(`${ENDPOINT}/products/${randomId()}`, {
     tags: { name: 'ProductDetails' },
   })
 
   sleep(randomSleep())
+
 }

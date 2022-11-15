@@ -1,3 +1,5 @@
+# This dockerfile is used to build a docker image for the database and is
+# used by the docker-compose.yml file in the root of the project.
 FROM postgres:14 AS db
 WORKDIR /usr/src/app
 # Copy the seed data, and scripts

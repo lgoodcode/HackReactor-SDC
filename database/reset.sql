@@ -51,5 +51,11 @@ CREATE TABLE skus (
   "quantity" INT
 );
 
-
+-- Indexes used for faster queries
+CREATE INDEX idx_product_id ON features("product_id");
+CREATE INDEX idx_styles_id ON styles("productId");
+CREATE INDEX idx_features_id ON features("product_id");
+CREATE INDEX idx_photos_id ON photos("styleId");
+CREATE INDEX idx_related_id ON related("current_product_id");
+CREATE INDEX idx_skus_id ON skus("styleId");
 

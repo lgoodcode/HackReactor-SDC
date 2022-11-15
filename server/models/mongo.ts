@@ -14,6 +14,10 @@ const mongo = (
 
 mongo.connect(process.env.MONGODB_URI || '')
 
+process.on('SIGTERM', () => {
+  mongo.connection.close()
+})
+
 const productSchema = new mongo.Schema({
   id: {
     type: Number,

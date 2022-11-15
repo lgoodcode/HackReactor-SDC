@@ -16,6 +16,24 @@ To run the server locally for development, you only need to specify the `PGDATAB
 The defaults will work but not for Docker, which requires a different port if a PostgreSQL database is running on the host machine,
 and the hostname for Docker on the local machine is `host.docker.internal`.
 
+## **Deployment**
+
+### **AWS**
+
+When deploying the server on an EC2 instance, you will need to specify the environment variables for the database connection
+or creating a `.env` file in the root directory of the server.
+
+The database only requires the `5432` port to be open for inbound rules for the database connection from the server.
+
+The server requires port `80` to be open and to forward that port to the server port, which is `4000` by default.
+To forward the port, you can use the following command:
+
+`sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 4000`
+
+To view whether the port forwarding is added, you can use the following command to view the NAT table:
+
+`sudo iptables -t nat -L`
+
 ## **Docker**
 
 A separate Dockerfile is used for the database and the server. The database is needs to use the `/database/data` directory
@@ -25,9 +43,17 @@ data being added to the docker image for the server container.
 The environment variables are set in the `.env` file to use with Docker. For actual production, the environment variables
 should be manually set in the environment.
 
-## Database
+Docker Compose is used to manage the containers for the database and the server. The `docker-compose.yml` file contains
+the configuration and allows to read the environment variables from the `.env` file to use.
 
-### **Performance**
+## **Database**
+
+### **Deployed Performance**
+
+Using [Loader.io](https://loader.io/), the deployed server gives better performance metrics to use
+than locally to get a better idea of how it will perform in production.
+
+### **Local Performance**
 
 `GET /products`
 - Original - `0.015ms` - Retrieve products with a limit\

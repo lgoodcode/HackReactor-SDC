@@ -12,6 +12,10 @@ const db = new Pool({
 const PAGE = 1
 const COUNT = 5
 
+process.on('SIGTERM', () => {
+  db.end()
+})
+
 export const products = async (page = PAGE, count = COUNT) => {
   const offset = (page - 1) * count
   const products = await db.query(`SELECT * FROM products OFFSET ${offset} LIMIT ${count}`)
