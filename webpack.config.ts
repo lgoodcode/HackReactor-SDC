@@ -18,7 +18,7 @@ const config: Configuration = {
     // Clear the directory before building
     clean: true,
   },
-  // Disble source maps for production
+  // Disable source maps for production
   devtool: isProd ? false : 'inline-source-map',
   // Need to watch to restart the server on changes with nodemon
   watch: !isProd,

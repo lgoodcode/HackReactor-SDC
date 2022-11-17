@@ -16,7 +16,7 @@ app.use('/', express.static(join(__dirname, 'public'), { maxAge: 31557600000 }))
 app.use('/api', sqlRouter)
 
 // eslint-disable-next-line
-app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(404).json({ error: 'Not found' })
 })
 
