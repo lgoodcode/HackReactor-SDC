@@ -106,7 +106,9 @@ a single query that joins all tables together and transforms within the database
 
 To check the timing for the a query, run the following command:
 
-`npm run db:sql:timing`
+```bash
+npm run db:sql:timing
+```
 
 or prefix a query with `EXPLAIN ANALYZE` to view the exectution time.
 
@@ -114,7 +116,9 @@ or prefix a query with `EXPLAIN ANALYZE` to view the exectution time.
 
 To seed the database, run the following command:
 
-`npm run db:sql:seed`
+```bash
+npm run db:sql:seed
+```
 
 **Note:** The `PGPASSWORD` environment variable is required for this command to work without prompts for the password
 for each file. The `PGUSER` and `PGDATABASE` are also required to specify which database to seed.
