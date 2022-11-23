@@ -2,7 +2,7 @@
 
 # Reset tables
 echo "Resetting tables..."
-sudo -u postgres psql -d sdc -f "/usr/src/app/reset.sql"
+sudo -u postgres psql -d sdc -f "/usr/src/app/schema.sql"
 
 echo "Creating tables..."
 psql -U $POSTGRES_USER -d $POSTGRES_DB -f reset.sql
