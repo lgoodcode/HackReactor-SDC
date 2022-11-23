@@ -18,6 +18,15 @@ and the hostname for Docker on the local machine is `host.docker.internal`.
 
 ## **Deployment**
 
+### **NodeJS**
+
+Need to install the NodeJS binaries:
+
+```bash
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - &&\
+sudo apt-get install -y nodejs
+```
+
 ### **AWS**
 
 When deploying the server on an EC2 instance, you will need to specify the environment variables for the database connection
@@ -76,6 +85,27 @@ the configuration and allows to read the environment variables from the `.env` f
 
 ## **Database**
 
+### **Installation**
+
+Update the OS and install PostgreSQL on Ubuntu:
+
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install postgresql postgresql-contrib
+```
+
+Give the `postgres` user access to the `/home/ubuntu` directory to execute sql scripts:
+
+```bash
+sudo chown -R postgres:postgres /home/ubuntu
+```
+
+or 
+
+```bash
+sudo chmod -R /home/ubuntu
+```
+
 ### **Deployed Performance**
 
 Using [Loader.io](https://loader.io/), the deployed server gives better performance metrics to use
@@ -127,6 +157,7 @@ for each file. The `PGUSER` and `PGDATABASE` are also required to specify which 
 
 For some reason, within the model for the PostgreSQL database, double quotes are required around
 the column names. This is why underscre_case is used and not camelCase.
+
 
 #### **Commands**
 

@@ -10,7 +10,7 @@ dotenv()
 // The base args to specify the user and the database
 const PG_ARGS = `-U ${process.env.PGUSER} -d ${process.env.PGDATABASE}`
 // The filepath to the sql file to reset the tables, relative to the cwd
-const RESET_SQL_PATH = join(process.cwd(), 'database/reset.sql')
+const RESET_SQL_PATH = join(process.cwd(), 'database/schema.sql')
 // Relative filepath to the CSV data files
 const DATA_REL_PATH = 'database/data'
 // Base options for `spawn` to run in the shell and display output in terminal
