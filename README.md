@@ -14,7 +14,7 @@
 
 ## Project Description
 
-I was tasked with revamping the backend products service of an e-commerce product details page that contained an existing legacy API on a monolithic architecture. This project uses a NodeJS server with ExpressJS for routing and accesses a Postgreql database. Testing was done with K6 for local benchmarks and loader.io for cloud testing.
+I was tasked with revamping the backend products service of an e-commerce product details page that contained an existing legacy API on a monolithic architecture. This project uses a NodeJS server with ExpressJS for routing and accessing a PostgreSQL database. Testing was done with K6 for local benchmarks and loader.io for cloud testing.
 
 ## **Environment Variables**
 
