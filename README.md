@@ -1,3 +1,20 @@
+## Tech Stack
+
+<div width="100%">
+  <img src="https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white" />
+  <img src="https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB" />
+  <img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white" />
+  <img src="https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white" />
+  <img src="https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white" />
+  <img src="https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white" />
+  <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white" />
+  <img src="https://img.shields.io/badge/circle%20ci-%23161616.svg?style=for-the-badge&logo=circleci&logoColor=white" />
+</div>
+
+## Project Description
+
+I was tasked with revamping the backend products service of an e-commerce product details page that contained an existing legacy API on a monolithic architecture. This project uses a NodeJS server with ExpressJS for routing and accesses a Postgreql database. Testing was done with K6 for local benchmarks and loader.io for cloud testing.
+
 ## **Environment Variables**
 
 `PORT` - The port that the server will run on - ***default: 4000***\
